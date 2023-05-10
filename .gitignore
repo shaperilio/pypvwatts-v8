@@ -1,6 +1,9 @@
 *.py[cod]
 .pyirc
 
+# Pycharm
+.idea
+
 # C extensions
 *.so
 
