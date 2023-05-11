@@ -1,5 +1,8 @@
 Changelog
 =========
+
+3.0.5 - Updated to use pvwatts v8 URL
+
 3.0.4 - Moved Changelog to its own file
 
 3.0.3 - Fix nsrdb dataset validation error

@@ -1,6 +1,8 @@
 pypvwatts
 =========
 
+**NOTE: This is a fork of the pypvatts by the LBNL BETTER team, with updates to use the newer pvwatts v8 API.**
+
 [![Build Status](https://travis-ci.org/mpaolino/pypvwatts.svg?branch=master)](https://travis-ci.org/mpaolino/pypvwatts)
 
 A NREL PVWAtts API v6 thin Python wrapper built around requests library.
@@ -9,10 +11,10 @@ Originally developed by <http://renooble.com>.
 
 Github repository: <https://github.com/mpaolino/pypvwatts>
 
-
 PVWatts API v6 Documentation: <https://developer.nrel.gov/docs/solar/pvwatts/v6/>
 
 Python requests library: <http://docs.python-requests.org/en/latest/>
+
 
 Supports
 --------
