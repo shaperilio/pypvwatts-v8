@@ -1,7 +1,7 @@
 pypvwatts
 =========
 
-**NOTE: This is a fork of the pypvwatts by the LBNL BETTER team, with updates to use the newer pvwatts v8 API.**
+**NOTE: This is a fork of the pypvwatts library by the LBNL BETTER team, with updates to use the newer pvwatts v8 API.**
 
 [![Build Status](https://travis-ci.org/mpaolino/pypvwatts.svg?branch=master)](https://travis-ci.org/mpaolino/pypvwatts)
 
