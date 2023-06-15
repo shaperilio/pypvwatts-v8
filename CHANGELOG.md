@@ -1,6 +1,8 @@
 Changelog
 =========
 
+3.0.6 - Added bifaciality as an input param
+
 3.0.5 - Updated to use pvwatts v8 URL
 
 3.0.4 - Moved Changelog to its own file
