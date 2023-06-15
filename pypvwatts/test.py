@@ -3,11 +3,11 @@
 Unit tests for pypvwatts.
 
 """
-from .pypvwatts import PVWatts, PVWattsResult
-from .pvwattserror import PVWattsValidationError
-
-import unittest
 import json
+import unittest
+
+from .pvwattserror import PVWattsValidationError
+from .pypvwatts import PVWatts, PVWattsResult
 
 SAMPLE_RESPONSE = """
 {
@@ -16,6 +16,7 @@ SAMPLE_RESPONSE = """
       "lon":"-105",
       "system_capacity":"4",
       "azimuth":"180",
+      "bifaciality": "0.7",
       "tilt":"40",
       "array_type":"1",
       "module_type":"1",
@@ -112,6 +113,7 @@ class Test(unittest.TestCase):
     Unit tests for PVWatts.
 
     """
+
     def test_pvwatts_results(self):
         """Test PVWattsResult attrib handling"""
         result = PVWattsResult(json.loads(SAMPLE_RESPONSE))
@@ -122,90 +124,122 @@ class Test(unittest.TestCase):
         """Test pypvwatts validations"""
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity='a', module_type=1, array_type=1,
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='tmy2', losses=0.13,
                           lat=40, lon=-105)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type='1', array_type=1,
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='tmy2', losses=0.13,
                           lat=40, lon=-105)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type='1',
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='tmy2', losses=0.13,
                           lat=40, lon=-105)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=-190, tilt=30,
+                          azimuth=-190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='1', losses=0.13,
                           lat=40, lon=-105)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=190, tilt=100,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=100,
                           dataset='1', losses=0.13,
                           lat=40, lon=-105)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='1', losses=0.13,
                           lat=40, lon=-105)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='tmy2', losses=-400,
                           lat=40, lon=-105)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='tmy2', losses=0.13,
                           lat=-100, lon=-105)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='tmy2', losses=0.13,
                           lat=40, lon=400)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='tmy2', losses=0.13,
                           lat=40, lon=-105, timeframe='notvalid')
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=190, tilt='a',
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt='a',
                           dataset='tmy2', losses=0.13,
                           lat=40, lon=-105)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='tmy2', losses=0.13,
                           lat=40, lon=-105, dc_ac_ratio=-10)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='tmy2', losses=0.13,
                           lat=40, lon=-105, gcr=10)
         self.assertRaises(PVWattsValidationError, PVWatts.request,
                           system_capacity=4, module_type=1, array_type=1,
-                          azimuth=190, tilt=30,
+                          azimuth=190,
+                          bifaciality=0.7,
+                          tilt=30,
                           dataset='tmy2', losses=0.13,
                           lat=40, lon=-105, inv_eff=0)
 
         datasets = ['nsrdb', 'nsrdb', 'tmy2', 'tmy3', 'intl']
         for dataset in datasets:
             result = PVWatts.request(system_capacity=4, module_type=1, array_type=1,
-                                     azimuth=190, tilt=30,
+                                     azimuth=190,
+
+                                     bifaciality=0.7,
+                                     tilt=30,
                                      dataset=dataset, losses=0.13,
                                      lat=40, lon=-105)
             self.assertIsInstance(result, (PVWattsResult))
-
 
     def test_pypvwatts(self):
         """Test pypvwatts"""
         PVWatts.api_key = 'DEMO_KEY'
         results = PVWatts.request(
             system_capacity=4, module_type=1, array_type=1,
-            azimuth=190, tilt=30, dataset='tmy2',
+            azimuth=190,
+            bifaciality=0.7,
+            tilt=30, dataset='tmy2',
             losses=0.13, lat=40, lon=-105)
         self.assert_results(results)
 
@@ -214,7 +248,8 @@ class Test(unittest.TestCase):
         p = PVWatts(api_key='DEMO_KEY')
         results = p.request(
             system_capacity=4, module_type=1, array_type=1,
-            azimuth=190, tilt=30, dataset='tmy2',
+            azimuth=190,
+            bifaciality=0.7, tilt=30, dataset='tmy2',
             losses=0.13, lat=40, lon=-105)
         self.assert_results(results)
 

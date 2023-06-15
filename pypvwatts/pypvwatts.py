@@ -121,6 +121,19 @@ class PVWatts():
         return azimuth
 
     @omnimethod
+    def validate_bifaciality(self, bifaciality):
+        if bifaciality is None:
+            return
+
+        if not isinstance(bifaciality, (int, long, float)):
+            raise PVWattsValidationError('bifaciality must be int, long or float')
+
+        if not (0 <= bifaciality and bifaciality <= 1):
+            raise PVWattsValidationError('bifaciality must be >= 0 and <= 1')
+
+        return bifaciality
+
+    @omnimethod
     def validate_lat(self, lat):
         if lat is None:
             return
@@ -267,7 +280,7 @@ class PVWatts():
 
     @omnimethod
     def request(self, format=None, system_capacity=None, module_type=0,
-                losses=12, array_type=1, tilt=None, azimuth=None,
+                losses=12, array_type=1, tilt=None, azimuth=None, bifaciality=None,
                 address=None, lat=None, lon=None, file_id=None, dataset='tmy3',
                 radius=0, timeframe='monthly', dc_ac_ratio=None, gcr=None,
                 inv_eff=None, callback=None):
@@ -281,6 +294,7 @@ class PVWatts():
             'array_type': PVWatts.validate_array_type(array_type),
             'tilt': PVWatts.validate_tilt(tilt),
             'azimuth': PVWatts.validate_azimuth(azimuth),
+            'bifaciality': PVWatts.validate_bifaciality(bifaciality),
             'address': address,
             'lat': PVWatts.validate_lat(lat),
             'lon': PVWatts.validate_lon(lon),
