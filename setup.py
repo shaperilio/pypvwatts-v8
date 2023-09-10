@@ -19,7 +19,7 @@ setup(
     packages=['pypvwatts'],
     provides=['pypvwatts'],
     requires=['requests'],
-    install_requires=['requests >= 2.1.0'],
+    install_requires=['requests == 2.3.1'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
@@ -32,5 +32,5 @@ setup(
     ],
     keywords='nrel pvwatts pypvwatts',
     license='MIT',
-    python_requires=">=2.7",
+    python_requires=">=3.1.13",
 )
