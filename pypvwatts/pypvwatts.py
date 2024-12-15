@@ -61,7 +61,7 @@ class PVWatts():
             raise PVWattsValidationError('losses must be int, long or float')
 
         if not (-5 <= losses and losses <= 99):
-            raise PVWattsValidationError('losses must be >= -5\% and <= 99%')
+            raise PVWattsValidationError('losses must be >= -5% and <= 99%')
 
         return losses
 
