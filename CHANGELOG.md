@@ -1,5 +1,6 @@
-Changelog
-=========
+# Changelog
+
+3.0.7 - Cleanup and fixes
 
 3.0.6 - Added bifaciality as an input param
 
@@ -32,4 +33,3 @@ Changelog
 1.1.0 - Minor import fix and README update
 
 1.0.0 - First release
- 
