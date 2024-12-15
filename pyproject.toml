@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools >= 64", "requests >= 2.4.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+requires-python = ">=3.1.13"
+name = "pypvwatts"
+description = "pvWatts V8 API client"
+readme = "README.md"
+dynamic = ["version"]
+authors = [{ name = "Miguel Paolino", email = "mpaolino@gmail.com" }]
+license = { text = "MIT License" }
+keywords = ["nrel", "pvwatts", "pypvwatts"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Internet",
+    "Topic :: Internet :: WWW/HTTP",
+]
+
+[project.urls]
+Changelog = "https://github.com/shaperilio/pypvwatts-v8/blob/main/CHANGELOG.md"
+Repository = "https://github.com/shaperilio/pypvwatts-v8"
+
+[tool.setuptools.dynamic]
+version = { attr = "pypvwatts.__version__.VERSION" }
