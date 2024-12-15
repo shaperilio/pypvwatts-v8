@@ -7,21 +7,11 @@ from .pvwattserror import PVWattsError, PVWattsValidationError
 import requests
 from .__version__ import VERSION
 
-import functools
 import sys
 
 if sys.version_info > (3,):
     long = int
     unicode = str
-
-
-# this decorator lets me use methods as both static and instance methods
-class omnimethod(object):
-    def __init__(self, func):
-        self.func = func
-
-    def __get__(self, instance, owner):
-        return functools.partial(self.func, instance)
 
 
 class PVWatts():
@@ -30,13 +20,11 @@ class PVWatts():
     '''
 
     PVWATTS_QUERY_URL = 'https://developer.nrel.gov/api/pvwatts/v8.json'
-    api_key = 'DEMO_KEY'
 
     def __init__(self, api_key='DEMO_KEY', proxies=None):
-        PVWatts.api_key = api_key
+        self.api_key = api_key
         self.proxies = proxies
 
-    @omnimethod
     def validate_system_capacity(self, system_capacity):
         if system_capacity is None:
             return
@@ -51,7 +39,6 @@ class PVWatts():
 
         return system_capacity
 
-    @omnimethod
     def validate_module_type(self, module_type):
         if module_type is None:
             return
@@ -66,7 +53,6 @@ class PVWatts():
 
         return module_type
 
-    @omnimethod
     def validate_losses(self, losses):
         if losses is None:
             return
@@ -79,7 +65,6 @@ class PVWatts():
 
         return losses
 
-    @omnimethod
     def validate_array_type(self, array_type):
         if array_type is None:
             return
@@ -94,7 +79,6 @@ class PVWatts():
 
         return array_type
 
-    @omnimethod
     def validate_tilt(self, tilt):
         if tilt is None:
             return
@@ -107,7 +91,6 @@ class PVWatts():
 
         return tilt
 
-    @omnimethod
     def validate_azimuth(self, azimuth):
         if azimuth is None:
             return
@@ -120,20 +103,19 @@ class PVWatts():
 
         return azimuth
 
-    @omnimethod
     def validate_bifaciality(self, bifaciality):
         if bifaciality is None:
             return
 
         if not isinstance(bifaciality, (int, long, float)):
-            raise PVWattsValidationError('bifaciality must be int, long or float')
+            raise PVWattsValidationError(
+                'bifaciality must be int, long or float')
 
         if not (0 <= bifaciality and bifaciality <= 1):
             raise PVWattsValidationError('bifaciality must be >= 0 and <= 1')
 
         return bifaciality
 
-    @omnimethod
     def validate_lat(self, lat):
         if lat is None:
             return
@@ -146,7 +128,6 @@ class PVWatts():
 
         return lat
 
-    @omnimethod
     def validate_lon(self, lon):
         if lon is None:
             return
@@ -159,7 +140,6 @@ class PVWatts():
 
         return lon
 
-    @omnimethod
     def validate_dataset(self, dataset):
         if dataset is None:
             return
@@ -173,7 +153,6 @@ class PVWatts():
 
         return dataset
 
-    @omnimethod
     def validate_radius(self, radius):
         if radius is None:
             return
@@ -186,7 +165,6 @@ class PVWatts():
 
         return radius
 
-    @omnimethod
     def validate_timeframe(self, timeframe):
         if timeframe is None:
             return
@@ -201,7 +179,6 @@ class PVWatts():
 
         return timeframe
 
-    @omnimethod
     def validate_dc_ac_ratio(self, dc_ac_ratio):
         if dc_ac_ratio is None:
             return
@@ -216,7 +193,6 @@ class PVWatts():
 
         return dc_ac_ratio
 
-    @omnimethod
     def validate_gcr(self, gcr):
         if gcr is None:
             return
@@ -229,7 +205,6 @@ class PVWatts():
 
         return gcr
 
-    @omnimethod
     def validate_inv_eff(self, inv_eff):
         if inv_eff is None:
             return
@@ -246,7 +221,6 @@ class PVWatts():
     def version(self):
         return VERSION
 
-    @omnimethod
     def get_data(self, params={}):
         """
         Make the request and return the deserialided JSON from the response
@@ -278,7 +252,6 @@ class PVWatts():
             raise PVWattsError("Forbidden, 403")
         return response.json()
 
-    @omnimethod
     def request(self, format=None, system_capacity=None, module_type=0,
                 losses=12, array_type=1, tilt=None, azimuth=None, bifaciality=None,
                 address=None, lat=None, lon=None, file_id=None, dataset='tmy3',
@@ -288,28 +261,26 @@ class PVWatts():
         params = {
             'format': format,
             'system_capacity':
-            PVWatts.validate_system_capacity(system_capacity),
-            'module_type': PVWatts.validate_module_type(module_type),
-            'losses': PVWatts.validate_losses(losses),
-            'array_type': PVWatts.validate_array_type(array_type),
-            'tilt': PVWatts.validate_tilt(tilt),
-            'azimuth': PVWatts.validate_azimuth(azimuth),
-            'bifaciality': PVWatts.validate_bifaciality(bifaciality),
+            self.validate_system_capacity(system_capacity),
+            'module_type': self.validate_module_type(module_type),
+            'losses': self.validate_losses(losses),
+            'array_type': self.validate_array_type(array_type),
+            'tilt': self.validate_tilt(tilt),
+            'azimuth': self.validate_azimuth(azimuth),
+            'bifaciality': self.validate_bifaciality(bifaciality),
             'address': address,
-            'lat': PVWatts.validate_lat(lat),
-            'lon': PVWatts.validate_lon(lon),
+            'lat': self.validate_lat(lat),
+            'lon': self.validate_lon(lon),
             'file_id': file_id,
-            'dataset': PVWatts.validate_dataset(dataset),
-            'radius': PVWatts.validate_radius(radius),
-            'timeframe': PVWatts.validate_timeframe(timeframe),
-            'dc_ac_ratio': PVWatts.validate_dc_ac_ratio(dc_ac_ratio),
-            'gcr': PVWatts.validate_gcr(gcr),
-            'inv_eff': PVWatts.validate_inv_eff(inv_eff),
+            'dataset': self.validate_dataset(dataset),
+            'radius': self.validate_radius(radius),
+            'timeframe': self.validate_timeframe(timeframe),
+            'dc_ac_ratio': self.validate_dc_ac_ratio(dc_ac_ratio),
+            'gcr': self.validate_gcr(gcr),
+            'inv_eff': self.validate_inv_eff(inv_eff),
             'callback': callback
         }
 
-        params['api_key'] = PVWatts.api_key
+        params['api_key'] = self.api_key
 
-        if self is not None:
-            return PVWattsResult(self.get_data(params=params))
-        return PVWattsResult(PVWatts.get_data(params=params))
+        return PVWattsResult(self.get_data(params=params))
